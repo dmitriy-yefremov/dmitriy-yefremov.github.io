@@ -13,3 +13,6 @@ Jekyll automatically generates posts excerts. Want to display full posts on the 
 
 #### 10/30/2014:
 Switched to [Redcarpet](https://github.com/vmg/redcarpet) for Markdown processing. This way I can get GitHub style fenced blocks with [Pygments](http://pygments.org/) highlighting for code snippets.
+
+#### 01/02/2015:
+Reinitialized the repo to remove [Jekyll Now](https://github.com/barryclark/jekyll-now) commits history.
