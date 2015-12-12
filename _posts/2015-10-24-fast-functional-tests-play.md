@@ -6,17 +6,17 @@ title: Writing faster functional tests for Play applications
 Play Framework supports functional testing out of the box. There are helpers for both
 Scala ([specs2](https://www.playframework.com/documentation/2.4.x/ScalaFunctionalTestingWithSpecs2), 
 [ScalaTest](https://www.playframework.com/documentation/2.4.x/ScalaFunctionalTestingWithScalaTest)) and Java
-[JUnit](https://www.playframework.com/documentation/2.4.x/JavaFunctionalTest). The basic idea is to run the code under
-test inside a "fake" application. For the code it will look like it is running in a normal Play application with access
+([JUnit](https://www.playframework.com/documentation/2.4.x/JavaFunctionalTest)). The basic idea is to run code under
+test inside a "fake" application. For code it will look like it is running in a normal Play application with access
 to plugins, configuration parameters and other parts of the runtime environment. A fake application can be started with
 or without a HTTP server. Everything works very well, but there is one issue - instantiation of a fake application takes
 a long time. The reason is the fake application is in fact quite real and does a lot of what a real application would do
 (read the configuration, load the plugins etc). Fake application startup time matters because the helpers provided by
 Play assume that each test requires it's own application. As the number of functional tests grows the fake application
 start time overhead becomes significant. This concern is somewhat addressed in ScalaTest (multiple tests can share the
-same fake application), but not for other testing frameworks.
+same fake application), but not for the other testing frameworks.
 
-In this post I will show a different approach to functional testing of Play applications. Instead of using multiple fake
+In this post I will show a different approach to the functional testing of Play applications. Instead of using multiple fake
 applications we will run tests against a single instance of a real application.
 
 Let's start from a simple play application that we can use for testing;
@@ -90,13 +90,13 @@ class IntegrationSpec extends Specification with FutureAwaits with DefaultAwaitT
 ```
 
 The test uses [WS API](https://www.playframework.com/documentation/2.4.x/ScalaWS) to hit the application
-via the HTTP interface. One important part to notice is it does not use
+via the HTTP interface. One important part to notice is that it does not use
 [WithServer](https://www.playframework.com/documentation/2.4.x/api/scala/index.html#play.api.test.WithServer) to start a
 fake application. It requires you to start the application yourself before running the test. Thus the test will fail if
 executed by simply running `play it:test`.
  
-In order to make the test pass we need to start our application before running the test and shut the application down
-after the test finishes. It could be done manually, but there is a better way. There are very convenient hooks available
+In order to make test pass we need to start our application before running test and shut the application down
+after test finishes. It could be done manually, but there is a better way. There are very convenient hooks available
 in SBT: [sbt.Tests#Setup](http://www.scala-sbt.org/0.13/api/index.html#sbt.Tests$$Setup) and
 [sbt.Tests#Cleanup](http://www.scala-sbt.org/0.13/api/index.html#sbt.Tests$$Cleanup). We will use them to start and stop
 the application when running integration tests. We can see how it works by adding the following to `build.sbt`:
@@ -172,6 +172,7 @@ ConnectException: Connection refused
 [success] Total time: 22 s, completed Dec 12, 2015 2:05:22 PM
 ```
 
-Complete sample application code can bound here: https://github.com/dmitriy-yefremov/play-functional-testing
+Complete sample application code can bound here:
+[https://github.com/dmitriy-yefremov/play-functional-testing](https://github.com/dmitriy-yefremov/play-functional-testing)
 
 Please let me know what you think and how this solution can be improved!
