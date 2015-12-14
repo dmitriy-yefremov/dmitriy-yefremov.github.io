@@ -172,7 +172,18 @@ ConnectException: Connection refused
 [success] Total time: 22 s, completed Dec 12, 2015 2:05:22 PM
 ```
 
-Complete sample application code can bound here:
+Complete sample application code can be found here:
 [https://github.com/dmitriy-yefremov/play-functional-testing](https://github.com/dmitriy-yefremov/play-functional-testing)
 
+This approach may or may not be useful for a certain project. Below are some key features that will help to decide whether you should use it:
+
+* Execution time does not depend on the test suite size. It stays near your application startup time. That is good for
+large test suites. For relatively small test suites the overhead of starting up an application instance may be too big.
+* A real application instance is started. That is good to verify integration of all components including configuration
+files. That may be bad because test doubles can not be easily injected. You may need to have test only branches in your
+production code.
+* Tests only interact with the application through the HTTP interface. That makes it more suitable for black-box like
+acceptance testing. Tests do not need to be changed when the implementation is changed. Different team may be responsible
+for testing and implementation.
+ 
 Please let me know what you think and how this solution can be improved!
