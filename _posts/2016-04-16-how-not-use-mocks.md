@@ -185,7 +185,7 @@ public class SimpleTickerTest {
     TagNode tickerNode = mock(TagNode.class);
     // set expectations
     URL url = new URL("http://finance.yahoo.com/q?s=LNKD");
-    String html = "<html><span class=\"time_rtq_ticker\"><span id=\"yfs_l84_lnkd\">116.25</span></span></html>";
+    String html = "<html><span class='time_rtq_ticker'><span>116.25</span></span></html>";
     when(IOUtils.toString(url)).thenReturn(html);
     when(htmlCleaner.clean(html)).thenReturn(rootNode);
     when(rootNode.findElementByAttValue("class", "time_rtq_ticker", true, true)).thenReturn(tickerNode);
@@ -280,7 +280,7 @@ is totally fine to use a real instance of [HtmlCleaner](http://htmlcleaner.sourc
   @Test
   public void parseHtml() throws Exception {
     GoodTicker ticker = new GoodTicker(new HtmlCleaner());
-    String html = "<html><span class=\"time_rtq_ticker\"><span id=\"yfs_l84_lnkd\">116.25</span></span></html>";
+    String html = "<html><span class='time_rtq_ticker'><span>116.25</span></span></html>";
     double quote = ticker.parseHtml(html);
     assertEquals(116.25, quote, 0.1);
   }
@@ -312,7 +312,7 @@ Please see both methods implemented below.
   @Test
   public void getQuoteOverriding() throws Exception {
     URL url = new URL("http://finance.yahoo.com/q?s=LNKD");
-    String html = "<html><span class=\"time_rtq_ticker\"><span id=\"yfs_l84_lnkd\">116.25</span></span></html>";
+    String html = "<html><span class='time_rtq_ticker'><span>116.25</span></span></html>";
     GoodTicker ticker = new GoodTicker(new HtmlCleaner()) {
       @Override
       String fetchUrl(URL actualUrl) throws IOException {
@@ -330,7 +330,7 @@ Please see both methods implemented below.
     GoodTicker ticker = spy(new GoodTicker(new HtmlCleaner()));
     // set expectations
     URL url = new URL("http://finance.yahoo.com/q?s=LNKD");
-    String html = "<html><span class=\"time_rtq_ticker\"><span id=\"yfs_l84_lnkd\">116.25</span></span></html>";
+    String html = "<html><span class='time_rtq_ticker'><span>116.25</span></span></html>";
     when(ticker.fetchUrl(url)).thenReturn(html);
     // run actual code
     double quote = ticker.getQuote("LNKD");
