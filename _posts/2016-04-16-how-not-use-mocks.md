@@ -5,8 +5,8 @@ title: How not to use mocks
 
 # Test doubles
 
-Before talking about mocks I want to define what is a mock. In our everyday lives we often use the term mock
-for any object replacing a real production object in a test. That is not correct and may cause confusion.
+Before talking about mocks I want to define what is a mock. In everyday live we often use the term mock for any object
+replacing a real production object in a test. That is not correct and may cause confusion.
  
 Let's look at different kinds of test doubles (those replacement objects) on a simple example. Imagine we have
 a phone book object that allows to store and retrieve phone numbers.
@@ -114,8 +114,8 @@ much thinking. Here are some typical consequences of mocking overused:
   you want your tests to stay the same as you change the implementation. That is one of the benefits of having tests -
   you refactor the implementation and if the tests still pass you can be confident you didn't break anything. With mocks
   used for testing you may end up almost repeating your implementation logic in your tests as you set all expected calls
-  one by one. It's almost certain that your tests will fail if you change the implementation. You lose the refactoring
-  safety net and increase the maintenance cost.
+  one by one. It's almost certain that your tests will fail if you change implementation. You lose the refactoring
+  safety net and increase maintenance cost.
 * Compromised implementation quality.
   This one is not quite obvious. How can the choice of testing tools impact your production code? It is well known that
   one side effect of testing is a better design of your production code. To make code testable you need to break it into
@@ -165,7 +165,7 @@ public class SimpleTicker implements Ticker {
 ```
 
 The `getQuote` method is rather simple, but has some logic to test. Let's create a test for this method using the most
-direct approach with mocking. From my past experience this is what a lot of software developers would actually do.
+direct approach with mocking. From my past experience this is what a lot of software developers will actually do.
 
 ```java
 import static org.mockito.Mockito.mock;
@@ -291,7 +291,7 @@ is totally fine to use a real instance of [HtmlCleaner](http://htmlcleaner.sourc
 ## Do not test everything
 
 It turns out that after extracting all logic into separate methods and testing them independently there is often nothing
-else left to test. Our main method `getQuote` only contains the high level sequence of operations. It is so simple that
+else left to test. Our main method `getQuote` only contains high level sequence of operations. It is so simple that
 requires no testing.
 
 To make a decision regarding what is simple enough to have no tests we need to go back to the reasons we write unit
