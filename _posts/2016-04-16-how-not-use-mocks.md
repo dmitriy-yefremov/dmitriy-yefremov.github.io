@@ -188,7 +188,8 @@ public class SimpleTickerTest {
     String html = "<html><span class='time_rtq_ticker'><span>116.25</span></span></html>";
     when(IOUtils.toString(url)).thenReturn(html);
     when(htmlCleaner.clean(html)).thenReturn(rootNode);
-    when(rootNode.findElementByAttValue("class", "time_rtq_ticker", true, true)).thenReturn(tickerNode);
+    when(rootNode.findElementByAttValue("class", "time_rtq_ticker", true, true))
+        .thenReturn(tickerNode);
     when(tickerNode.getText()).thenReturn("116.25");
     // run actual code
     SimpleTicker ticker = new SimpleTicker(htmlCleaner);
