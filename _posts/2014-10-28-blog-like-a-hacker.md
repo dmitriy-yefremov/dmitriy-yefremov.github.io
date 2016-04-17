@@ -16,3 +16,6 @@ Switched to [Redcarpet](https://github.com/vmg/redcarpet) for Markdown processin
 
 #### 01/02/2015:
 Reinitialized the repo to remove [Jekyll Now](https://github.com/barryclark/jekyll-now) commits history.
+
+#### 04/16/2016:
+Switched back to kramdown as a part of GitHub's [Jekyll 3.0 upgrade](https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0). New syntax highlights CSS from [mojombo](https://github.com/mojombo/tpw). 
