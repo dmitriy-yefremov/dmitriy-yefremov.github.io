@@ -207,7 +207,7 @@ The closest alternative that could be used for the purpose of this comparison is
 
 Below is a macro annotations based code generator implementation.
 
-```Scala
+```scala
 class FromSchema(schemaFile: String) extends StaticAnnotation {
 
   def macroTransform(annottees: Any*) = macro QuasiquotesGenerator.generate
