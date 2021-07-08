@@ -19,14 +19,14 @@ avatar: http://yefremov.net/images/profile.jpg
 footer-links:
   dribbble: 
   email: dmitriy@yefremov.net
-  facebook: dyefremov
+  facebook:
   flickr: 
   github: dmitriy-yefremov
   instagram: 
   linkedin: yefremov
   pinterest: 
   rss: http://yefremov.net/feed.xml
-  twitter: dmitriyyefremov
+  twitter:
   stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
 
 # Your disqus shortname, entering this will enable commenting on posts
