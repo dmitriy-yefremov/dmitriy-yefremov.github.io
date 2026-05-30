@@ -37,7 +37,9 @@ giscus:
   category: "Comments"
   category_id: "DIC_kwDOAYsFhM4C-LTT"
   mapping: "pathname"
-  theme: "light"
+  # `preferred_color_scheme` makes the comment widget follow the visitor's
+  # OS light/dark setting, matching the rest of the site.
+  theme: "preferred_color_scheme"
 
 # Markdown / syntax highlighting
 markdown: kramdown

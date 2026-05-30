@@ -3,21 +3,24 @@
 // VARIABLES
 //
 
-// Colors
-$blue: #4183C4; 
+// Brand accent (kept as a real value where a concrete color is needed)
+$blue: #0969da;
 
-// Grays
-$black: #000;
-$darkerGray: #222;
-$darkGray: #333;
-$gray: #666;
-$lightGray: #eee;
-$white: #fff;
+// Legacy gray names now map onto the themeable tokens defined in _theme.scss,
+// so existing rules automatically respond to light/dark mode.
+$black:       var(--fg);
+$darkerGray:  var(--heading);
+$darkGray:    var(--fg);
+$gray:        var(--fg-muted);
+$lightGray:   var(--border);
+$white:       var(--bg);
 
 // Font stacks
 $helvetica: Helvetica, Arial, sans-serif;
 $helveticaNeue: "Helvetica Neue", Helvetica, Arial, sans-serif;
 $georgia: Georgia, serif;
+$mono: ui-monospace, "SF Mono", SFMono-Regular, "JetBrains Mono", "Fira Code",
+       "Cascadia Code", Menlo, Consolas, "Liberation Mono", monospace;
 
 // Mobile breakpoints
 @mixin mobile {

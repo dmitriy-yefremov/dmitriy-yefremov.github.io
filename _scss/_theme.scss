@@ -1,0 +1,92 @@
+//
+// THEME TOKENS
+//
+// All themeable colors live here as CSS custom properties so the whole site
+// (page chrome, prose, code blocks, inline code, syntax highlighting) can flip
+// between light and dark by swapping a single block. Dark mode follows the
+// operating system via `prefers-color-scheme`.
+//
+
+:root {
+  // Page
+  --bg:           #ffffff;
+  --bg-subtle:    #f6f8fa;
+  --fg:           #2b2d31;
+  --fg-muted:     #656d76;
+  --heading:      #1f2328;
+  --link:         #0969da;
+  --border:       #e6e8eb;
+  --selection:    #d7e7ff;
+
+  // Inline `code`
+  --inline-code-bg:     #f0f2f4;
+  --inline-code-fg:     #24292f;
+  --inline-code-border: #e1e4e8;
+
+  // Code block "window"
+  --code-bg:         #fbfcfd;
+  --code-fg:         #24292f;
+  --code-border:     #e1e4e8;
+  --code-toolbar-bg: #f3f5f7;
+  --code-muted:      #8a929b;
+  --code-shadow:     0 1px 2px rgba(27, 31, 35, .08), 0 4px 12px rgba(27, 31, 35, .04);
+
+  // Syntax tokens (GitHub Light flavored)
+  --tok-comment:  #6e7781;
+  --tok-keyword:  #cf222e;
+  --tok-string:   #0a3069;
+  --tok-number:   #0550ae;
+  --tok-function: #8250df;
+  --tok-type:     #953800;
+  --tok-builtin:  #0550ae;
+  --tok-tag:      #116329;
+  --tok-attr:     #0550ae;
+  --tok-name:     #24292f;
+  --tok-regex:    #0a3069;
+  --tok-error:    #cf222e;
+  --tok-diff-ins-bg: #e6ffec;
+  --tok-diff-del-bg: #ffebe9;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    // Page
+    --bg:           #0d1117;
+    --bg-subtle:    #161b22;
+    --fg:           #c9d1d9;
+    --fg-muted:     #8b949e;
+    --heading:      #e6edf3;
+    --link:         #58a6ff;
+    --border:       #21262d;
+    --selection:    #2d4f76;
+
+    // Inline `code`
+    --inline-code-bg:     #21262d;
+    --inline-code-fg:     #e6edf3;
+    --inline-code-border: #30363d;
+
+    // Code block "window"
+    --code-bg:         #0d1117;
+    --code-fg:         #e6edf3;
+    --code-border:     #30363d;
+    --code-toolbar-bg: #161b22;
+    --code-muted:      #7d8590;
+    --code-shadow:     0 1px 2px rgba(1, 4, 9, .5), 0 8px 24px rgba(1, 4, 9, .3);
+
+    // Syntax tokens (GitHub Dark flavored)
+    --tok-comment:  #8b949e;
+    --tok-keyword:  #ff7b72;
+    --tok-string:   #a5d6ff;
+    --tok-number:   #79c0ff;
+    --tok-function: #d2a8ff;
+    --tok-type:     #ffa657;
+    --tok-builtin:  #79c0ff;
+    --tok-tag:      #7ee787;
+    --tok-attr:     #79c0ff;
+    --tok-name:     #e6edf3;
+    --tok-regex:    #a5d6ff;
+    --tok-error:    #ffa198;
+    --tok-diff-ins-bg: #033a16;
+    --tok-diff-del-bg: #67060c;
+  }
+}

@@ -7,6 +7,7 @@
 
 @import "_reset";
 @import "_variables";
+@import "_theme";
 // Syntax highlighting @import is at the bottom of this file
 
 /**************/
@@ -15,12 +16,15 @@
 
 html {
   font-size: 100%;
+  // Theme native UI (scrollbars, form controls) to match the page.
+  color-scheme: light dark;
 }
 
 body {
-	background: $white;
+	background: var(--bg);
   font: 16px/1.4 $helvetica;
-  color: $darkGray;
+  color: var(--fg);
+  transition: background-color .25s ease, color .25s ease;
 }
 
 .container {
@@ -69,11 +73,11 @@ p {
 }
 
 a {
-  color: $blue;
+  color: var(--link);
   text-decoration: none;
 	cursor: pointer;
   &:hover, &:active {
-    color: $blue;
+    color: var(--link);
   }
 }
 
@@ -117,12 +121,10 @@ img {
 
 // Specify the color of the selection
 ::-moz-selection {
-  color: $black;
-  background: $lightGray;
+  background: var(--selection);
 }
 ::selection {
-  color: $black;
-  background: $lightGray;
+  background: var(--selection);
 }
 
 // Nicolas Gallagher's micro clearfix hack
@@ -227,7 +229,7 @@ nav {
 
     @include mobile {
       margin: 0 10px;
-      color: $blue;
+      color: var(--link);
     }
   }
 }
@@ -268,9 +270,9 @@ nav {
 
 .wrapper-footer {
   margin-top: 50px;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  background-color: $lightGray;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background-color: var(--bg-subtle);
 }
 
 footer {
