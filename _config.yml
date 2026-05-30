@@ -37,7 +37,7 @@ giscus:
   category: "Comments"
   category_id: "DIC_kwDOAYsFhM4C-LTT"
   mapping: "pathname"
-  theme: "preferred_color_scheme"
+  theme: "light"
 
 # Markdown / syntax highlighting
 markdown: kramdown
