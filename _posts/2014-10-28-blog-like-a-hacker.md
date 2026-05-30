@@ -19,3 +19,6 @@ Reinitialized the repo to remove [Jekyll Now](https://github.com/barryclark/jeky
 
 #### 04/16/2016:
 Switched back to kramdown as a part of GitHub's [Jekyll 3.0 upgrade](https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0). New syntax highlights CSS from [mojombo](https://github.com/mojombo/tpw). 
+
+#### 05/30/2026:
+Time for a long overdue revival. Upgraded to [Jekyll 4](http://jekyllrb.com/) and now build/deploy through [GitHub Actions](https://github.com/dmitriy-yefremov/dmitriy-yefremov.github.io/blob/master/.github/workflows/jekyll.yml) instead of the legacy GitHub Pages build that was frozen on Jekyll 3. Dropped a few things that had quietly died over the years: a custom Pygments plugin that never actually ran on GitHub Pages, and a Google Analytics snippet pointing at Universal Analytics (which stopped collecting data back in 2023). Replaced [Disqus](https://disqus.com/) with [giscus](https://giscus.app/), so comments now live in GitHub Discussions. Also moved the RSS feed to the [jekyll-feed](https://github.com/jekyll/jekyll-feed) plugin and switched everything over to HTTPS.
