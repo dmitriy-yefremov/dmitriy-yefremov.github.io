@@ -1,124 +1,69 @@
 ---
 layout: post
-title: The asynchronous software factory
+title: The Asynchronous Software Factory
 ---
 
-For the last 6 month I've been experimenting with different ways to build software using AI.
-The space of options is wide. At one end you sit in front of the screen and handhold an agent
-through every step - accept this diff, reject that one, nudge it back
-on track. At the other end you let a swarm of agents loose to go at a problem fully
-independently, OpenClaw-style. Most of us live near the handholding end, because that's where
-the tooling pushes us - prompting, re-prompting, and watching tokens stream by in real time.
-I've come to think of that as *babysitting*, and it caps both our leverage and our patience.
+## The Asynchronous Software Factory
 
-I don't think the handholding end is where the value is. But I also want to be clear about
-what I'm optimizing for: **institutional software development, not prototyping.** YOLO mode 
-turn an agent loose and hope for the best -
-is the wrong tool when you need something predictable and repeatable that a team will live
-with for years. For this kind of work, boring is good. The goal is a process you can trust to
-behave the same way on the hundredth feature as it did on the first.
+For the last six months, I’ve been experimenting with different ways to build software using AI.
 
-This post is about the other end of the spectrum, and about
-[`software-factory`](https://github.com/dmitriy-yefremov/software-factory) - a working
-template I built to get there. It's heavily inspired by Jamon Holmgren's
-[Night Shift](https://jamon.dev/night-shift).
+The space of options is wide. At one end, you sit in front of the screen and handhold an agent through every step - accept this diff, reject that one, nudge it back on track. At the other end, you let a swarm of agents loose to tackle a problem fully independently, OpenClaw-style.
 
-## Three bets about where this is going
+Most of us live near the handholding end. That's where current tooling pushes us: prompting, re-prompting, and watching tokens stream by in real time. I've come to think of that as *babysitting*, and it caps both our leverage and our patience.
 
-Everything below rests on three opinions I hold about the near future of software
-development.
+I don't think the handholding end is where the real value lies. But I want to be clear about what I'm optimizing for: **institutional software development, not prototyping.** YOLO mode - turning an agent loose and hoping for the best - is the wrong tool when you need something predictable and repeatable that a team will maintain and live with for years. For this kind of work, boring is good. The goal is a process you can trust to behave the exact same way on the hundredth feature as it did on the first.
 
-**Software development is going asynchronous.** We don't ask a coworker to do a task and
-then stand behind them watching their screen. We hand them the work and expect them to come
-back when it's done - or when they're genuinely stuck and have a question. The same should be
-true of AI agents. I don't want to watch one churn through tokens. I want to delegate and
-walk away.
+This post explores the autonomous end of the spectrum and introduces [`software-factory`](https://github.com/dmitriy-yefremov/software-factory) - a prototype I am working on to get there. It’s heavily inspired by Jamon Holmgren’s [Night Shift](https://jamon.dev/night-shift).
 
-**The future is spec-driven.** I describe the end state - the spec - and the system makes it
-happen. The human artifact of value is a precise description of *what* and *why*, not a
-running commentary on *how*, keystroke by keystroke. GitHub's
-[spec-driven development toolkit](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/)
-and OpenAI's [harness engineering](https://openai.com/index/harness-engineering/) writeups
-are good signals that this is where the industry is heading. The introduction of `/goal` in
-both OpenAI's Codex and Anthropic's Claude Code is another validation.
+## Three bets about where things are going
 
-**A "software factory" is the right metaphor.** Picture a conveyor belt: a fully automated
-assembly line that takes a specification in one end and emits reviewed, tested, merged code
-out the other. Humans design the line and feed it work. The line does the building.
+Everything below rests on three opinions I hold about the near future of software development.
 
-There's a parallel here with the shift from imperative to declarative programming. Prompting
-an agent step by step is *imperative*: you specify *how*, instruction by instruction. Building
-a factory is *declarative*: you specify *what* you want - the spec - and let the system work
-out how to produce it. Functional programmers gave up manual control over execution order and
-got composability and reliability in return. This is the same trade, applied to how we direct
-the machines that write our code.
+**Software development is going asynchronous.** We don't ask a coworker to do a task and then stand behind them watching their screen. Instead, we hand them the work and expect them to return when it's done-or when they're genuinely stuck and have a question. The same should be true of AI agents. I want to delegate and walk away, not monitor execution in real time.
+
+**The future is spec-driven.** Describe the end state and let the system determine how to build it. The human artifact of value is a precise description of *what* and *why*, not a running dialog on *how*. GitHub's [spec-driven development toolkit](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/) and OpenAI's [harness engineering](https://openai.com/index/harness-engineering/) writeups confirm this is where the industry is heading. The introduction of `/goal` in tools like Claude Code and Codex is another clear validation of this shift.
+
+**A "software factory" is the right metaphor.** Picture a conveyor belt: a fully automated assembly line that takes a specification in one end and emits reviewed, tested, and integrated code out the other. Humans design the line and feed it work; the line does the building.
+
+There is a direct parallel here with the shift from imperative to declarative programming. Prompting an agent step-by-step is *imperative*: you specify *how*, instruction by instruction. Building a factory is *declarative*: you specify *what* you want (the spec) and let the system determine how to produce it. Functional programmers gave up manual control over execution order and received composability and reliability in return. This is the exact same trade, applied to how we direct the machines that write our code.
 
 ## The core idea: two non-overlapping phases
 
-The factory works by splitting the engineering process into two distinct phases that never
-overlap. Human deep-work happens synchronously, during your working hours. Machine execution
-happens asynchronously, in the background, unattended.
+The factory works by splitting the engineering process into two distinct phases that never overlap. Human deep work happens synchronously during working hours, while machine execution happens asynchronously in the background, entirely unattended.
 
-### Phase 1 - Human definition & review (synchronous)
+### Phase 1: Human definition & review (synchronous)
 
-During working hours, engineers spend their attention only on high-context, high-value work:
+During working hours, engineers spend their attention exclusively on high-context, high-value tasks:
 
-- **Architecture & specs.** You work *with* a synchronous agent to produce highly detailed
-  specifications. The spec is where you organize technical thinking, lay out system
-  architecture, and pin down edge cases. This is the real work, and it's worth doing well.
-- **Review & validate.** You review what the factory produced overnight, and validate
-  results that a test suite can't fully judge - eyeballing a data diff after a pipeline run,
-  for instance.
-- **Factory maintenance.** This is the mindset shift. When the AI makes a mistake, you do
-  *not* hand-fix the code. You fix the **factory floor** - the system docs, the test harness,
-  the lint rules that let the mistake through - so that *class* of mistake can never happen
-  again.
+* **Architecture & specs:** You work *with* a synchronous agent to produce highly detailed specifications. The spec is where you organize technical thinking, lay out system architecture, and pin down edge cases. This is the real engineering work, and it is worth doing exceptionally well.
+* **Review & validate:** You review what the factory produced overnight and validate results that an automated test suite can’t fully verify - such as eyeballing a data diff after a database migration or checking visual UI layouts.
+* **Factory maintenance:** This is the critical mindset shift. When the AI stumbles, fix the factory floor, not the code. Patch the agent prompts, test suite, docs, or lint rules that let the mistake through - so that entire *class* of error can never happen again.
 
-### Phase 2 - The AI assembly line (asynchronous)
+### Phase 2: The AI assembly line (asynchronous)
 
-Once the specs are set, you queue the work, trigger the agents, and step away. In the
-background, a multi-agent line takes over with no human on the happy path:
+Once the specs are set, you queue the work, trigger the agents, and step away. In the background, a multi-agent assembly line takes over with no human on the happy path:
 
-1. **Plan.** An agent reads the spec, studies the codebase, and writes a concrete
-   implementation plan.
-2. **Pre-implementation review.** *Before any application code is written*, a separate
-   reviewer critiques that plan - grounded in the project's own constitution - and surfaces
-   the strongest objections it can find. Catching a bad design here is far cheaper than
-   catching it in a diff.
-3. **Implement & iterate.** An implementer turns the approved plan into code, runs the strict
-   linters and the test suite, and iterates in a closed feedback loop until everything is
-   green.
-4. **Post-implementation review.** A code-review agent reviews the diff against the spec, the
-   plan, and the acceptance criteria. Its findings go back to the implementer to be
-   addressed.
+1. **Plan:** An agent reads the spec, studies the codebase, and writes a concrete implementation plan.
+2. **Pre-implementation review:** *Before any application code is written*, a separate reviewer agent critiques that plan-grounded in the project's own constitution-and surfaces the strongest objections it can find. Catching a bad architectural design here is far cheaper than catching it in a massive git diff.
+3. **Implement & iterate:** An implementer agent turns the approved plan into code, runs strict linters and the test suite, and iterates in a closed feedback loop until everything is green.
+4. **Post-implementation review:** A code-review agent reviews the diff against the spec, the plan, and the acceptance criteria. Its findings go back to the implementer to be addressed.
 
 ## How `software-factory` actually implements this
 
-The vision above is nice, but I wanted something that runs. `software-factory` is a
-**spec-first, agent-built, autonomously-running** template you fork into a new project and
-own. It turns a written spec into reviewed, CI-green, merged code with no human in the loop on
-the happy path.
+The vision above is compelling, but vision alone doesn't ship code. `software-factory` is a **spec-first, agent-built, autonomously running** template that you fork into your project and customize. It turns a written spec into reviewed, CI-green, merged code with no human in the loop.
 
-A few design choices are worth calling out, because they're what make unattended execution
-actually safe.
+A few design choices are worth calling out, because they are what make unattended execution actually safe:
 
-**Specifications and design choices are durable** All past specifications and architecture
-decision records (ADRs) are saved in the repository and accessible by agents. This is important
-to maintain consistency.
+* **Specifications and design choices are durable:** All past specifications and Architecture Decision Records (ADRs) live in the repository and remain fully accessible to agents, maintaining context and architectural consistency over time.
+* **PRs are the shared context:** Pull requests offer a natural, GitHub-native abstraction to keep shared context between agents and maintain a human-readable log for verification. Once merged, however, they are no longer referenced for future work, preventing historical clutter from slowing down current runs.
+* **Deterministic order of operations:** I chose *not* to use agentic orchestration to dynamically define the sequence of operations on the conveyor belt. Instead, I implemented a strict state machine using GitHub Actions. Each operation on the assembly line is a discrete workflow, and the state transitions are fixed. This trades the flexible reasoning of an agent-led orchestrator for simplicity, predictability, and strict guardrails.
+* **Labels are the state machine:** Every transition in the pipeline is a GitHub label swap, driven by GitHub Actions. A spec PR moves systematically through:
 
-**PRs are the shared context** Native to GitHub development PRs offer a good abstraction to
-keep shared context between agents and maintain human-readable log for verifications. But after
-they are merged they are not referred to for any future work.  
+  `state:queued` → `state:plan` → `state:plan-review` → `state:implementation` → `state:implementation-ci` → `state:code-review` → `state:merge`.
 
-**Deterministic order of operations.** I chose to *not* use agentic capabilities to define the
-sequence of operation in the conveyor. Instead I implemented a state machine use GitHub Actions.
-Each operation on the assembly line is a workflow, the state transitions are fixed. It trades
-flexibility of agent-led orchstration for simlpicity and predictability.
+  There is no hidden orchestrator state to lose; the PR's labels *are* the state, fully visible to anyone visiting GitHub.
 
-**Labels *are* the state machine.** Every transition in the pipeline is a GitHub label swap,
-driven by GitHub Actions. A spec PR moves `state:queued → state:plan → state:plan-review →
-state:implementation → state:implementation-ci → state:code-review → state:merge`. There's no
-hidden orchestrator state to lose; the PR's labels *are* the state, fully visible on GitHub.
+Here's how it works in practice: a human writes a specification in `specs/NNNN-name.md`, opens a pull request with that file, and labels it `state:queued`. From that moment forward, the assembly line takes over - no human intervention needed until the PR lands on main or hits a blocker that requires attention.
 
 ```
 human writes specs/NNNN-name.md, opens PR, labels it state:queued
@@ -139,72 +84,30 @@ human writes specs/NNNN-name.md, opens PR, labels it state:queued
       main ◀── scheduler advances to the next queued PR
 ```
 
-**Every agent runs in a fresh session with no shared context.** This sounds wasteful until
-you see why it matters: a reviewer who shares context with the author becomes a yes-man. We
-want independent critique grounded in the spec, not an agent agreeing with its own earlier
-reasoning. The planner and reviewers can also run on different models.
+* **Every agent runs in a fresh session with no shared context:** Independent critique is crucial because a reviewer who inherits the planner's context easily becomes a "yes-man," agreeing with earlier reasoning rather than questioning it. Fresh sessions force each agent to ground its work strictly in the spec and codebase. As a bonus, this also lets you run different LLM models for different agents.
+* **Failure is bounded, and parking is a first-class outcome:** A `REQUEST_CHANGES` from a reviewer or a failed CI run triggers automatic retries, but only up to two times per stage. Anything that cannot make progress lands at `state:needs-attention`, where a human takes over. The factory is designed to give up loudly rather than thrash silently and run up your API bill.
+* **Auto-merge is gated by guardrails:** When a PR reaches `state:merge`, the auto-merger rebases onto `main`, runs an eligibility check, and only then squash-merges the changes. If a guardrail trips, it parks the PR instead of merging. The scheduler then safely advances to the next queued spec.
 
-**Failure is bounded, and parking is a first-class outcome.** A `REQUEST_CHANGES` from a
-reviewer and a red CI run both trigger automatic retries - but only up to twice per stage.
-Anything that can't make progress lands at `state:needs-attention`, where a human takes over.
-The factory is allowed to give up loudly rather than thrash silently.
-
-**Auto-merge is gated by guardrails.** When a PR reaches `state:merge`, the auto-merger
-rebases onto `main`, runs an eligibility check, and only then squash-merges. If a guardrail
-trips, it parks instead of merging. Then the scheduler advances to the next queued spec.
-
-It ships as a **fork-and-own template**: it carries the orchestration machinery and a generic
-TypeScript/pnpm skeleton but *none* of any product's code. You fork it, run one script to
-stamp it with your project's name, write your constitution (`CLAUDE.md` and
-`docs/principles.md` - the files the agents read first), file your first spec, and the cascade
-runs.
+It ships as a **fork-and-own template**: it carries the orchestration machinery and a generic TypeScript/pnpm skeleton, but *none* of your product's actual code. You fork it, run a single script to stamp it with your project’s name, write your "constitution" (`CLAUDE.md` and `docs/principles.md` - the files the agents read first), file your first spec, and let the cascade run.
 
 ## Building the factory floor
 
-A factory that runs unattended will manufacture technical debt at machine speed unless the
-floor is built to prevent it. Three investments are non-negotiable.
+An unattended factory manufactures technical debt at machine speed, unless the floor is specifically built to prevent it. Three investments are non-negotiable:
 
-**Bulletproof automated testing.** The asynchronous loop simply does not work without a
-robust test harness. The agents rely on test *failures* to self-correct in the background; the
-red bar is the steering wheel. Weak tests mean a potentially confidently-wrong factory.
-
-**Systematic documentation.** Centralized routing documents - an `AGENTS.md` / `CLAUDE.md`
-constitution that points agents at the right workflow rules, domain knowledge, and
-architectural guidelines - let individual specs stay short. The shared context lives once, in
-the docs, not copy-pasted into every spec.
-
-**Strict static analysis.** Crank typing and linting to the strictest setting you can stand.
-What feels restrictive to a human developer is essential guardrailing for an autonomous agent
-- it's the difference between an agent that wanders and one that's fenced into a correct
-solution space.
+* **Bulletproof automated testing:** The asynchronous loop simply does not work without a robust test harness. The agents rely entirely on test *failures* to self-correct in the background; the red bar is their steering wheel. Weak tests mean a confidently wrong factory.
+* **Systematic documentation:** Centralized routing documents like an `AGENTS.md` or `CLAUDE.md` point agents to the right workflow rules, domain knowledge, and architectural guidelines. This allows individual specs to stay short. The shared context lives in one place in the docs, rather than being copied and pasted into every spec.
+* **Strict static analysis:** Crank typing and linting to the strictest settings. What feels restrictive to a human developer is an essential guardrail for an autonomous agent. It is the difference between an agent that wanders and one that is fenced into a correct solution space.
 
 ## What I've learned so far
 
-I've been running this on a project for about a month, and it has written a good amount
-of real code in that time. A few honest takeaways:
+I've been running this on a project for about a month, and it has written a substantial amount of real, production code in that time. A few honest takeaways:
 
-- **The upfront cost is real.** Standing up the factory - and then tweaking it as the agents
-  keep finding new ways to go wrong - is a lot of work. In the short term it is *much* easier
-  to just prompt an agent and get your change. The factory only starts paying off once you've
-  stopped hand-fixing code and started fixing the floor.
-- **When it works, it's genuinely amazing.** Filing a spec, walking away, and coming back to a
-  reviewed, CI-green, merged PR is a different category of experience from babysitting a chat
-  window.
-- **The jury is still out on scale.** I've run this with dozens of specs and ADRs. I don't yet
-  know how it behaves with *hundreds* - whether the accumulated constitution keeps the agents
-  on track or starts to buckle under its own weight. That's the part I'm most curious about.
+* **The upfront cost is real:** Standing up the factory and tweaking it as agents find new ways to fail is heavy work. In the short term, it's much easier to just prompt an agent and accept the change. The factory only pays off once you stop hand-fixing code and start fixing the floor.
+* **When it works, it's genuinely amazing:** Filing a spec, walking away, and coming back to a reviewed, CI-green, merged PR is a completely different category of developer experience from babysitting a chat window.
+* **The jury is still out on scale:** I've run this with dozens of specs and ADRs. I don't yet know how it behaves with *hundreds* - whether the accumulated constitution keeps the agents on track or starts to buckle under its own weight. As the constitution grows, will agents struggle to maintain internal consistency across conflicting principles? Will context windows become a bottleneck, forcing me to truncate or summarize older ADRs? And will contradictions naturally emerge in the guidance itself, leaving agents confused about which principle to follow? That is the part I'm most curious about.
 
-Overall: promising, and worth the investment for the kind of long-lived, institutional work I
-care about. But it's an experiment, not a finished answer.
+Overall the approach looks promising for long-lived, institutional work and worth the investment. But it's still an experiment, not a finished solution.
 
----
+***
 
-If you want to dig in, the template is on GitHub:
-[dmitriy-yefremov/software-factory](https://github.com/dmitriy-yefremov/software-factory).
-It's early and opinionated, and I'd love feedback.
-
-### References
-
-- Jamon Holmgren - [Night Shift](https://jamon.dev/night-shift)
-- OpenAI - [Harness engineering](https://openai.com/index/harness-engineering/)
-- GitHub - [Spec-driven development with AI](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/)
+If you want to dig in, the template is open source on GitHub: [dmitriy-yefremov/software-factory](https://github.com/dmitriy-yefremov/software-factory). It is early and opinionated, and I would love to hear your feedback!
